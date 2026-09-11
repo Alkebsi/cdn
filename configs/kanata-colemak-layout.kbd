@@ -1,0 +1,100 @@
+;; rename to kanata.kbd on window, or use "$: ./kanata --cfg ./kanata-colemak-layout.kbd" on ubuntu
+;; works well with my MSI laptop along with my Redragon K539
+(defcfg
+  process-unmapped-keys yes
+  concurrent-tap-hold yes
+)
+
+;; defining some reusable variables
+(defvar
+  tap-repress-timeout   100
+  hold-timeout          200
+  tt $tap-repress-timeout
+  ht $hold-timeout
+
+
+)
+
+;; My keyboard layout, only the keys that I will or might remap, not everything
+(defsrc
+  ;; esc   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12 ;; I don't need to map the f keys
+  ;; 1     2    3    4    5    6    7    8    9    0    -    =    bspc ;; I didn't also need to map the num row
+  tab   q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps  a    s    d    f    g    h    j    k    l    ;    '    enter
+  lsft  z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl  nop1   lalt  spc   102d    ralt lmeta rctl
+)
+
+;; This will be my default layout, colemak instead of qwerty
+;; I installed kanata for colemak, home row mods, layers, chords, etc
+(deflayer default
+  tab   q    w    @f   p    b    j    l    @u   y    ;    [    ]    \
+  caps  a    @r   @s   @t   @g   @m   @n   @e   @i   o    '    enter
+  lsft  x    c    d    @v   z    @k   h    ,    .    /    rsft
+  lctl  nop1   lalt  @spc   apps    ralt lmeta rctl
+)
+
+
+;; Numpad layer with some navigations on the left hand
+(deflayer num
+  tab   q    @cmt  @f   @log @log S-8  7    8    9    -    .    ]    \
+  caps  a    r     s    .    tab  /    4    5    6    S-=  '    enter
+  lsft  x    rctl  c    d    bspc 0    1    2    3    ,    rsft
+  lctl  nop1 lalt  spc  apps ralt lmeta rctl
+)
+
+;; Navigation Layer with default home row mods, but on the keys directly so you can't write jkl...etc
+(deflayer nav
+  tab   tab  pgup up   pgdn  C-c  j    @cmt @u   rsft  ralt [    ]    \
+  caps  a    left down right C-v  m    rctl e    lmeta lalt '    enter
+  lsft  apps  home @log end   bspc k    apps ,    .     /    rsft
+  lctl  nop1   lalt  spc   apps    ralt lmeta rctl
+)
+
+;; Symbols Layer where I will have most if not all, symbols I might even need right next to my fingers
+(deflayer sym
+  tab   `    S-7  S-1  S-5  M-e  C-A-v S-9  S-0  S--  S-6  [    ]    \
+  caps  S-`  f2   S-2  S-4  S-]  S-[   S-8  S-=  -    S-\  '    enter
+  lsft  apps A-f4 S-3  `  bspc   /     S-8  S-,  S-.  \    rsft
+  lctl  nop1   lalt  spc   apps    ralt lmeta rctl
+)
+
+;; Define Mods and Macros
+(defalias
+  ;; Settings on the default layer
+  ;; Layers
+  f (tap-hold $tt $ht f (layer-while-held num))
+  u (tap-hold $tt $ht u (layer-while-held nav))
+  spc (tap-hold $tt $ht spc (layer-while-held sym))
+
+  ;; Mods
+  g (tap-hold $tt $ht g lmeta)
+  t (tap-hold $tt $ht t lctl)
+  s (tap-hold $tt $ht s lsft)
+  r (tap-hold $tt $ht r lalt)
+
+  m (tap-hold $tt $ht m lmeta)
+  n (tap-hold $tt $ht n rctl)
+  e (tap-hold $tt $ht e rsft)
+  i (tap-hold $tt $ht i ralt)
+
+  ;; Tap Dance
+  k (tap-dance 200 (k C-bspc))
+  v (tap-dance 200 (v C-f9))
+
+  ;; Macros, specially for vscode
+  cmt C-/ ;; Commenting lines using one hand
+  log (macro c o n s o l e . l o g S-9 S-0 left )
+)
+
+;; Define Chords
+(defchordsv2
+  (j k) bspc 30 first-release ()
+  (d f) enter 30 first-release ()
+  (u i) del 50 first-release ()
+  (e r) tab 50 first-release ()
+
+  (k l) = 50 first-release ()
+  (s d) esc 30 first-release ()
+  (i o) C-S-enter 50 first-release ()
+)
