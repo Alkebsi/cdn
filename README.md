@@ -1,6 +1,6 @@
-# db (`mkebsi.com/db`)
+# db (`mkebsi.com/cdn`)
 
-A lightweight, public asset host and static CDN served via GitHub Pages at [`https://mkebsi.com/db/`](https://mkebsi.com/db/). Used for serving HTML email media, public configuration files, and static graphics.
+A lightweight, public asset host and static CDN served via GitHub Pages at [`https://mkebsi.com/cdn/`](https://mkebsi.com/cdn/). Used for serving HTML email media, public configuration files, and static graphics.
 
 ## Directory Layout
 
